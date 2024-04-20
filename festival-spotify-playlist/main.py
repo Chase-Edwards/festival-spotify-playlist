@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 from spotipy.oauth2 import SpotifyOAuth
-import helpers as h
+import spotify_agent as agent
 
 
 def main():
@@ -14,7 +14,7 @@ def main():
     playlist_description='A playlist for the Rampage Open Air 2024 festival lineup'
         
     # Create a Spotify agent object
-    agent = h.SpotifyAgent()
+    agent = agent.SpotifyAgent()
 
     # Get the Spotify ID of the artist
     artist_id = agent.get_artist_id(artist_name)

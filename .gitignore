@@ -1,2 +1,5 @@
 secrets.env
 .cache
+.vscode
+launch.json
+__pycache__
