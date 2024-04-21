@@ -31,8 +31,12 @@ def main():
     artists = json.load(f)
     f.close()
 
+    # Create the playlist
+    if agent.playlist_id is None:
+        agent.create_playlist(playlist_name, playlist_description)
+
     # Loop through the artists and add their tracks to the playlist
-    for artist in artists[0:3]:
+    for artist in artists:
         # Get the Spotify ID of the artist
         artist_id = agent.get_artist_id(artist)
 
@@ -40,15 +44,13 @@ def main():
         if artist_id is None:
             continue
         else:
-            # Get the top n tracks of the artist
-            tracks = agent.get_tracks(artist_id, 2)
-
-            # Create the playlist
-            if agent.playlist_id is None:
-                agent.create_playlist(playlist_name, playlist_description)
-
-            # Add the tracks to the playlist
-            agent.add_tracks(tracks)
+            # Get the top tracks of the artist
+            tracks = agent.get_tracks(artist_id, 5)
+            if len(tracks) == 0:
+                continue
+            else:        
+                # Add the tracks to the playlist
+                agent.add_tracks(tracks)
 
 
 if __name__ == "__main__":

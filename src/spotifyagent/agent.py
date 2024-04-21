@@ -36,6 +36,7 @@ class SpotifyAgent:
             str: The Spotify ID of the artist.
         """
         search_query = 'artist:' + artist_name
+        artist_id = None
 
         response = self.client.search(search_query, limit=3, type='artist')
         artists_by_popularity = sorted(response['artists']['items'],
