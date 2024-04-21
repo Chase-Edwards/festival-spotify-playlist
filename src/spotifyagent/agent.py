@@ -2,6 +2,7 @@ import os
 import spotipy
 import logging
 
+
 class SpotifyAgent:
     def __init__(self):
         """
@@ -37,7 +38,9 @@ class SpotifyAgent:
         search_query = 'artist:' + artist_name
 
         response = self.client.search(search_query, limit=3, type='artist')
-        artists_by_popularity = sorted(response['artists']['items'], key = lambda x: x['popularity'], reverse=True)
+        artists_by_popularity = sorted(response['artists']['items'],
+                                       key = lambda x: x['popularity'],
+                                       reverse=True)
 
         for artist in artists_by_popularity:
             if artist['name'].lower() == artist_name.lower():
