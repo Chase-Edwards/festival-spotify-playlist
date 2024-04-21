@@ -1,5 +1,6 @@
 import os
 import spotipy
+import logging
 
 class SpotifyAgent:
     def __init__(self):
@@ -28,16 +29,27 @@ class SpotifyAgent:
         Get the Spotify ID of an artist.
 
         Args:
-            client (Spotify): The Spotify client object.
             artist_name (str): The artist name.
 
         Returns:
             str: The Spotify ID of the artist.
         """
-        search_query = 'q=' + 'artist%3A' + artist_name
-        response = self.client.search(search_query, limit=1, type='artist')
-        artist_id = response['artists']['items'][0]['id']
+        search_query = 'artist:' + artist_name
 
+        response = self.client.search(search_query, limit=3, type='artist')
+        artists_by_popularity = sorted(response['artists']['items'], key = lambda x: x['popularity'], reverse=True)
+
+        for artist in artists_by_popularity:
+            if artist['name'].lower() == artist_name.lower():
+                artist_id = artist['id']
+                break
+        
+        if artist_id is None:
+            logging.warning(f"The agent couldn't find a suitable Artist ID for {artist_name}")
+            return None
+        else:    
+            logging.info(f"Artist ID: {artist_id}")
+        
         return artist_id
 
 
